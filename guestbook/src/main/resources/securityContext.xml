@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+					http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+					http://www.springframework.org/schema/security 
+					http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http use-expressions="true">
+		<intercept-url pattern="/DeleteMessage/**" access="hasRole('admin')" />
+		<intercept-url pattern="/NewMessage/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="permitAll" />
+		
+		<form-login />
+		<logout />
+	</http>
+	
+	<beans:bean id="encoder" 
+    			class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
+
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder ref="encoder" />
+			<user-service>
+				<user
+					name="admin"
+					password="cab744205a2d86112bef3e31ecbbdd8e58e8ef57e083d66be0e9ef61935c265eae427b0adb525b28"
+					authorities="admin, user" />
+				<user
+					name="user"
+					password="7e98ce5335f5c121e1c183f0c316837a689701a8ca244b17b1322eabe0d450613ce45f7c21a62b4a"
+					authorities="user" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>  
